@@ -3,7 +3,11 @@ base: core22
 adopt-info: unlockr
 grade: stable
 confinement: strict
-
+architectures:
+  - build-on: amd64
+  - build-on: arm64
+  - build-on: armhf
+  
 parts:
   qpdf:
     source: https://github.com/qpdf/qpdf.git
