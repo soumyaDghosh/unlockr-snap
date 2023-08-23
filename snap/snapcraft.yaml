@@ -1,0 +1,52 @@
+name: unlockr
+base: core22 
+adopt-info: unlockr
+grade: stable
+confinement: strict
+
+parts:
+  qpdf:
+    source: https://github.com/qpdf/qpdf.git
+    source-tag: "v11.4.0"
+    source-depth: 1
+# ext:updatesnap
+#   version-format:
+#     ignore: true
+    build-packages:
+      - libjpeg-turbo8-dev
+    plugin: cmake
+    cmake-parameters:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DINSTALL_PKGCONFIG=ON
+      - -DINSTALL_CMAKE_PACKAGE=OFF
+      - -DINSTALL_EXAMPLES=OFF
+    prime:
+      - -usr/lib/*/pkgconfig
+  unlockr:
+    after: [ qpdf ]
+    plugin: meson
+    source: https://github.com/jkotra/unlockr.git
+    source-tag: '0.8.1'
+    source-depth: 1
+    parse-info: [ usr/share/metainfo/com.github.jkotra.unlockr.metainfo.xml ]
+    build-environment:
+      - PKG_CONFIG_PATH: $CRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET/pkgconfig:$PKG_CONFIG_PATH
+    meson-parameters:
+      - --prefix=/snap/unlockr/current/usr
+    organize:
+      snap/unlockr/current: .
+    
+slots:
+  unlockr:
+    interface: dbus
+    bus: session
+    name: com.github.jkotra.unlockr
+    
+apps:
+  unlockr:
+    command: usr/bin/unlockr
+    extensions: [ gnome ]
+    common-id: com.github.jkotra.unlockr
+    desktop: usr/share/applications/com.github.jkotra.unlockr.desktop
+    plugs:
+      - home
