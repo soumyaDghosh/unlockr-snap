@@ -34,7 +34,7 @@ parts:
     source-depth: 1
     parse-info: [ usr/share/metainfo/com.github.jkotra.unlockr.metainfo.xml ]
     build-environment:
-      - PKG_CONFIG_PATH: $CRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET/pkgconfig:$PKG_CONFIG_PATH
+      - LD_LIBRARY_PATH: $CRAFT_STAGE/usr/lib:$CRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET:$LD_LIBRARY_PATH
     meson-parameters:
       - --prefix=/snap/unlockr/current/usr
     organize:
