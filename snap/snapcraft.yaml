@@ -36,6 +36,9 @@ parts:
     parse-info: [ usr/share/metainfo/com.github.jkotra.unlockr.metainfo.xml ]
     build-environment:
       - LD_LIBRARY_PATH: $CRAFT_STAGE/usr/lib:$CRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET:$LD_LIBRARY_PATH
+    override-pull: |
+      craftctl default
+      craftctl set version=$(git describe --tags --abbrev=10)
     meson-parameters:
       - --prefix=/snap/unlockr/current/usr
     organize:
